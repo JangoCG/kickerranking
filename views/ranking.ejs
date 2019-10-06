@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="css/styles.css" rel="stylesheet">
+  <title>Kicker Ranking</title>
+</head>
+
+<body>
+  <h3>Sieger</h3>
+  <form action="/" method="post">
+    <input type="text" name="winner1" placeholder="Name Spieler 1">
+    <input type="text" name="winner2" placeholder="Name Spieler 2">
+    <!-- <h3>Verlierer</h3> -->
+    <input type="text" name="looser1" placeholder="Name Spieler 3">
+    <input type="text" name="looser2" placeholder="Name Spieler 4">
+    <button type="button submit" class="btn btn-primary">Berechne Elo</button>
+  </form>
+
+  <!-- Spieler hinzufügen Feld. Jedoch geht momentan nur eine Post Route -->
+  <!-- <h3>Spieler hinzufügen</h3>
+  <form action="/" method="post">
+    <input type="text" name="playername" placeholder="Names des Spielers">
+    <button type="button submit" class="btn btn-primary">Hinzufügen</button>
+  </form> -->
+
+
+
+  <h1>Rangliste</h1>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Rating</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% ratingArray.forEach(function(item){ %>
+          <tr>
+            <td><%= item.name%></td>
+            <td><%= JSON.stringify(item.rating) %></td>
+          </tr>
+          <% }) %>
+      <tr>
+    </tbody>
+  </table>
+</body>
+
+</html>
