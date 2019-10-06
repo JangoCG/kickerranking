@@ -2,8 +2,9 @@
   "name": "kickerranking",
   "version": "1.0.0",
   "description": "Kicker Ranking",
-  "main": "calculation.js",
+  "main": "ranking.js",
   "scripts": {
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Cengiz",
