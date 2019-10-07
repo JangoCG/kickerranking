@@ -87,70 +87,63 @@ app.post("/", async function (req, res) {
  
     //uname = winner 1
  
-    let a = String;
+   
  
-    function retrieveUser(winner1, callback) {
+    function retrieveUser(playerName, callback) {
         //https://stackoverflow.com/a/40169645/10781526
-        return Rating.findOne({name: winner1}).exec();
+        return Rating.findOne({name: playerName}).exec();
     }
+    
  
- 
-    let user;
+    let a,b,c,d;
+    
     try {
-        user = await retrieveUser(winner1);
-        console.log(user.rating);
+        a = await retrieveUser(winner1);
+        b = await retrieveUser(winner2);
+        c = await retrieveUser(looser1);
+        d = await retrieveUser(looser2);
+        
+        let change =  Math.round (calculateElo(a.rating,b.rating,c.rating,d.rating));
+        //hier gehts
+        await Rating.updateOne({name: a.name},  {rating: a.rating + change });
+        await Rating.updateOne({name: b.name},  {rating: a.rating + change });
+        await Rating.updateOne({name: c.name},  {rating: c.rating - change });
+        await Rating.updateOne({name: d.name},  {rating: d.rating - change });
+        
+
     } catch (e) {
         console.log(e);
     }
-    console.log(user.name);
+
+    res.redirect("/");
+    
+   
+    //hier nicht
+    //await Rating.updateOne({name: "andi"},  {rating: 900});
+ 
+ 
+   
+   
+   
+//    console.log("neues a ist" + (a.rating + change));
+//    console.log("neues b ist" + (b.rating + change));
+//    console.log("neues c ist" + (c.rating - change));
+//    console.log("neues d ist" + (b.rating - change));
+
+
+
+
+
    
   
   
- 
- 
-    // Rating.find({name:winner1},{_id: 0, rating:1}, function(err,foundEntryOfPlayer1){
-    //     if(err){
-    //         console.log(err)
-    //     }else {
-    //        console.log(foundEntryOfPlayer1);
-    //     }
-    // });
- 
- 
-    // Rating.find({name:winner2},{_id: 0, name:1}, function(err,foundEntryOfPlayer2){
-    //     if(err){
-    //         console.log(err)
-    //     }else {
-    //        console.log(foundEntryOfPlayer2);
- 
-    //     }
-    // });
- 
-    // Rating.find({name:looser1},{_id: 0, name:1}, function(err,foundEntryOfPlayer3){
-    //     if(err){
-    //         console.log(err)
-    //     }else {
-    //        console.log(foundEntryOfPlayer3);
- 
-    //     }
-    // });
- 
-    // Rating.find({name:looser2},{_id: 0, name:1}, function(err,foundEntryOfPlayer4){
-    //     if(err){
-    //         console.log(err)
-    //     }else {
-    //        console.log(foundEntryOfPlayer4);
- 
-    //     }
-    // });
- 
  
     // const newEntry = new Rating({
     //     name: nameOfNewPlayer,
     //     rating: 1000.0
     // });
  
-    // res.redirect("/");
+    
 });
  
 app.listen(port, function () {

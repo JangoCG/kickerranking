@@ -15,5 +15,13 @@
     "express": "^4.17.1",
     "mongoose": "^5.7.3",
     "mongoose-double": "0.0.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JangoCG/kickerranking.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JangoCG/kickerranking/issues"
+  },
+  "homepage": "https://github.com/JangoCG/kickerranking#readme"
 }
