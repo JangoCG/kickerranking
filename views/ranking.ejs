@@ -1,4 +1,3 @@
-<!-- <form action="/ams.amks" method="post">* -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,25 +13,50 @@
 </head>
 
 <body>
+  
   <h3>Sieger</h3>
-  this is a test
-<!-- test -->
   <form action="/" method="post">
-    
-    <input type="text" name="winner1" placeholder="Name Spieler 1">
-    <input type="text" name="winner2" placeholder="Name Spieler 2">
+    <div class="form-group">
+      <select class="form-control" id="exampleFormControlSelect1" name="winner1">
+        <% nameArray.forEach(function(item){ %>
+        <option> <%= item.name %> </option>
+        <% })%>
+      </select>
+    </div>
+    <div class="form-group">
+      <select class="form-control" id="exampleFormControlSelect1" name="winner2">
+        <% nameArray.forEach(function(item){ %>
+        <option> <%= item.name %> </option>
+        <% })%>
+      </select>
+    </div>
+
+
     <h3>Verlierer</h3>
-    <input type="text" name="looser1" placeholder="Name Spieler 3">
-    <input type="text" name="looser2" placeholder="Name Spieler 4">
-    <button type="button submit" class="btn btn-primary">Berechne Elo</button>
+    <div class="form-group">
+      <select class="form-control" id="exampleFormControlSelect1" name="looser1">
+        <% nameArray.forEach(function(item){ %>
+        <option> <%= item.name %> </option>
+        <% })%>
+      </select>
+      <div class="form-group">
+        <select class="form-control" id="exampleFormControlSelect1" name="looser2">
+          <% nameArray.forEach(function(item){ %>
+          <option> <%= item.name %> </option>
+          <% })%>
+        </select>
+      </div>
+      <button type="button submit" class="btn btn-primary">Berechne Elo</button>
   </form>
 
-  <!-- Spieler hinzufügen Feld. Jedoch geht momentan nur eine Post Route -->
-  <!-- <h3>Spieler hinzufügen</h3>
-  <form action="/" method="post">
+
+
+
+  <form action="register" method="post">
     <input type="text" name="playername" placeholder="Names des Spielers">
     <button type="button submit" class="btn btn-primary">Hinzufügen</button>
-  </form> -->
+  </form>
+
 
 
 
@@ -46,12 +70,12 @@
       </tr>
     </thead>
     <tbody>
-        <% ratingArray.forEach(function(item){ %>
-          <tr>
-            <td><%= item.name%></td>
-            <td><%= JSON.stringify(item.rating) %></td>
-          </tr>
-          <% }) %>
+      <% ratingArray.forEach(function(item){ %>
+      <tr>
+        <td><%= item.name%></td>
+        <td><%= JSON.stringify(item.rating) %></td>
+      </tr>
+      <% }) %>
       <tr>
     </tbody>
   </table>

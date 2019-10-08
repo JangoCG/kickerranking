@@ -26,30 +26,35 @@ mongoose.connect("mongodb://localhost:27017/ratingDB", {
 //Erstelle Blueprint für Rating Tabelle. Immer in Plural
 const ratingsSchema = {
     name: String,
-    rating: Number
+    rating: Number,
+    spiele: Number
 };
  
 const Rating = mongoose.model("Rating", ratingsSchema);
  
 const player1 = new Rating({
     name: "cengiz",
-    rating: 1000
+    rating: 1000,
+    spiele: 0
 });
  
 const player2 = new Rating({
     name: "david",
-    rating: 1000
+    rating: 1000,
+    spiele: 0,
 });
  
  
 const player3 = new Rating({
     name: "flo",
-    rating: 1000
+    rating: 1000,
+    spiele: 0
 });
  
 const player4 = new Rating({
     name: "andi",
-    rating: 1000
+    rating: 1000,
+    spiele: 0
 });
  
 const defaultPlayers = [player1, player2, player3, player4];
@@ -72,20 +77,34 @@ app.get("/", function (req, res) {
             return;
         }
         res.render("ranking", {
-            ratingArray: foundRecords
+            ratingArray: foundRecords,
+            nameArray: foundRecords
         });
     });
 });
  
+
+app.post("/register", function (req, res) {
+     const newEntry = new Rating({
+        name: req.body.playername,
+        rating: 1000.0,
+        spiele: 0
+    }); 
+
+    newEntry.save();
+    res.redirect("/");
+
+    
+});
  
 app.post("/", async function (req, res) {
     //Das ist der erhaltene body der hTTP request
     //Durch die . Notation kann ich dann auf die Attribute zugreifen
     //Die Zahlen werden als Stringe geparsed durch das Number
     //wird der string in zahlen convertiert.
+
     const {winner1, winner2, looser1, looser2} = req.body;
- 
-    //uname = winner 1
+   
  
    
  
@@ -117,33 +136,8 @@ app.post("/", async function (req, res) {
 
     res.redirect("/");
     
-   
-    //hier nicht
-    //await Rating.updateOne({name: "andi"},  {rating: 900});
- 
- 
-   
-   
-   
-//    console.log("neues a ist" + (a.rating + change));
-//    console.log("neues b ist" + (b.rating + change));
-//    console.log("neues c ist" + (c.rating - change));
-//    console.log("neues d ist" + (b.rating - change));
-
-
-
-
 
    
-  
-  
- 
-    // const newEntry = new Rating({
-    //     name: nameOfNewPlayer,
-    //     rating: 1000.0
-    // });
- 
-    
 });
  
 app.listen(port, function () {
