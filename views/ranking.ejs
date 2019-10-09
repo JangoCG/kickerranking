@@ -2,83 +2,98 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!-- Bootstrap core CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="css/styles.css" rel="stylesheet">
-  <title>Kicker Ranking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet">
+    <title>Kicker Ranking</title>
 </head>
 
 <body>
-  
-  <h3>Sieger</h3>
-  <form action="/" method="post">
-    <div class="form-group">
-      <select class="form-control" id="exampleFormControlSelect1" name="winner1">
-        <% nameArray.forEach(function(item){ %>
-        <option> <%= item.name %> </option>
-        <% })%>
-      </select>
+<div class="row">
+    <div class="column">
+        <h1 class="winner">Sieger</h1>
+        <form action="/" method="post">
+            <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" name="winner1">
+                    <% nameArray.forEach(function(item){ %>
+                        <option> <%= item.name %> </option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" name="winner2">
+                    <% nameArray.forEach(function(item){ %>
+                        <option> <%= item.name %> </option>
+                    <% }) %>
+                </select>
+            </div>
     </div>
-    <div class="form-group">
-      <select class="form-control" id="exampleFormControlSelect1" name="winner2">
-        <% nameArray.forEach(function(item){ %>
-        <option> <%= item.name %> </option>
-        <% })%>
-      </select>
+
+    <div class="column">
+        <h1 class="looser">Verlierer</h1>
+        <div class="form-group">
+            <select class="form-control" id="exampleFormControlSelect1" name="looser1">
+                <% nameArray.forEach(function(item){ %>
+                    <option> <%= item.name %> </option>
+                <% }) %>
+            </select>
+        </div>
+            <div class="form-group">
+                <select class="form-control" id="exampleFormControlSelect1" name="looser2">
+                    <% nameArray.forEach(function(item){ %>
+                        <option> <%= item.name %> </option>
+                    <% }) %>
+                </select>
+            </div>
+<!--           <button type="button submit" class="btn btn-primary">Berechne Elo</button>-->
+
+        </div>
     </div>
+</div>
+<button type="button submit" class="btn btn-primary calculateButton">Berechne Rating</button>
+</form>
 
 
-    <h3>Verlierer</h3>
-    <div class="form-group">
-      <select class="form-control" id="exampleFormControlSelect1" name="looser1">
-        <% nameArray.forEach(function(item){ %>
-        <option> <%= item.name %> </option>
-        <% })%>
-      </select>
-      <div class="form-group">
-        <select class="form-control" id="exampleFormControlSelect1" name="looser2">
-          <% nameArray.forEach(function(item){ %>
-          <option> <%= item.name %> </option>
-          <% })%>
-        </select>
-      </div>
-      <button type="button submit" class="btn btn-primary">Berechne Elo</button>
-  </form>
-
-
-
-
-  <form action="register" method="post">
+<!-- code for player registration
+<form action="register" method="post">
     <input type="text" name="playername" placeholder="Names des Spielers">
     <button type="button submit" class="btn btn-primary">Hinzufügen</button>
-  </form>
+</form>
+-->
 
 
 
-
-  <h1>Rangliste</h1>
-
-  <table class="table">
+<table class="table">
     <thead>
-      <tr>
+    <tr>
+        <th scope="col">#</th>
         <th scope="col">Name</th>
         <th scope="col">Rating</th>
-      </tr>
+        <th scope="col">Spiele</th>
+        <th scope="col">Siege</th>
+        <th scope="col">Winrate</th>
+    </tr>
     </thead>
     <tbody>
-      <% ratingArray.forEach(function(item){ %>
-      <tr>
-        <td><%= item.name%></td>
-        <td><%= JSON.stringify(item.rating) %></td>
-      </tr>
-      <% }) %>
-      <tr>
+    <% var i = 0 %>
+    <% ratingArray.forEach(function(item){ %>
+        <tr>
+            <td><%= i = i + 1 %></td>
+            <td><%= item.name %></td>
+            <td><%= JSON.stringify(item.rating) %></td>
+            <td><%= JSON.stringify(item.games) %></td>
+            <td><%= JSON.stringify(item.wins) %></td>
+            <td><%= JSON.stringify(item.winrate) + "%" %></td>
+        </tr>
+    <% }) %>
+    <tr>
     </tbody>
-  </table>
+</table>
 </body>
-
 </html>
+
+
