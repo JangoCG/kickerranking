@@ -20,7 +20,7 @@ app.use(express.urlencoded({
 
 //Connecte und erstelle Rating DB
 
-mongoose.connect("mongodb+srv://admin-cengiz:jangoadminasdf@cluster0-5vxjv.mongodb.net/ratingDB", {
+mongoose.connect("mongodb+srv://admin-cengiz:jangoadminasdf@cluster0-5vxjv.mongodb.net/kickerLiga", {
     useNewUrlParser: true
 });
 
@@ -35,7 +35,6 @@ const ratingsSchema = {
 
 //Blueprint für History Schema
 const historySchema = {
-    numberOfTheGame: Number,
     team1Player1: String,
     team1Player2: String,
     team2Player1: String,
@@ -250,11 +249,10 @@ app.post("/", async function (req, res) {
         await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins / (d.games + 1)) * 100)});
 
 
-        //Update History Table. Team1 are always the winners
-        // await History.insertOne({team1Player1: a.name}, {scoreTeam1: "Sieg"});
-        // await History.insertOne({team1Player2: b.name});
-        // await History.insertOne({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
-        // await History.insertOne({team2Player2: d.name});
+        await History.create({team1Player1: a.name}, {scoreTeam1: "Sieg"});
+        await History.create({team1Player2: b.name});
+        await History.create({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
+        await History.create({team2Player2: d.name});
 
 
     } catch (e) {
