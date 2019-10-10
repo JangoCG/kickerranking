@@ -50,7 +50,7 @@ const History = mongoose.model("History", historySchema);
 
 
 const player1 = new Rating({
-    name: "Cengiz",
+    name: "Cengiz Gürtusgil",
     rating: 1000,
     games: 0,
     wins: 0,
@@ -58,8 +58,8 @@ const player1 = new Rating({
 });
 
 const player2 = new Rating({
-    name: "David",
-    rating: 1000,
+    name: "David Schmitt",
+    rating: 1050,
     games: 0,
     wins: 0,
     winrate: 0
@@ -67,22 +67,117 @@ const player2 = new Rating({
 
 
 const player3 = new Rating({
-    name: "Flo",
-    rating: 1000,
+    name: "Florian Hergenröder",
+    rating: 977,
     games: 0,
     wins: 0,
     winrate: 0
 });
 
 const player4 = new Rating({
-    name: "JP",
+    name: "Jean-Paul Kindl",
+    rating: 1110,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player5 = new Rating({
+    name: "Alan Jaffery",
+    rating: 1080,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player6 = new Rating({
+    name: "Youssef Azbakh",
+    rating: 1021,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player7 = new Rating({
+    name: "Farhad Mohtashemi",
+    rating: 998,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player8 = new Rating({
+    name: "Lars Frerking",
+    rating: 998,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player9 = new Rating({
+    name: "Alexander Müller",
+    rating: 983,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player10 = new Rating({
+    name: "Daniele Brunetti",
+    rating: 980,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player11 = new Rating({
+    name: "Maike Patt",
+    rating: 970,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player12 = new Rating({
+    name: "Jahn Lossmann",
+    rating: 941,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player13 = new Rating({
+    name: "Kevin Mass",
+    rating: 905,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+const player14 = new Rating({
+    name: "Imanuel",
     rating: 1000,
     games: 0,
     wins: 0,
     winrate: 0
 });
 
-const defaultPlayers = [player1, player2, player3, player4];
+const player15 = new Rating({
+    name: "Michel",
+    rating: 1000,
+    games: 0,
+    wins: 0,
+    winrate: 0
+});
+
+
+
+
+
+
+const defaultPlayers =
+    [player1, player2, player3, player4, player5, player6, player7, player8,
+    player9, player10, player11, player12, player13, player14, player15];
 
 
 app.get("/", function (req, res) {
@@ -156,10 +251,10 @@ app.post("/", async function (req, res) {
 
 
         //Update History Table. Team1 are always the winners
-        await History.insertOne({team1Player1: a.name}, {scoreTeam1: "Sieg"});
-        await History.insertOne({team1Player2: b.name});
-        await History.insertOne({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
-        await History.insertOne({team2Player2: d.name});
+        // await History.insertOne({team1Player1: a.name}, {scoreTeam1: "Sieg"});
+        // await History.insertOne({team1Player2: b.name});
+        // await History.insertOne({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
+        // await History.insertOne({team2Player2: d.name});
 
 
     } catch (e) {
