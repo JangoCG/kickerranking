@@ -42,40 +42,28 @@
                 <% }) %>
             </select>
         </div>
-            <div class="form-group">
-                <select class="form-control" id="exampleFormControlSelect1" name="looser2">
-                    <% nameArray.forEach(function(item){ %>
-                        <option> <%= item.name %> </option>
-                    <% }) %>
-                </select>
-            </div>
-<!--           <button type="button submit" class="btn btn-primary">Berechne Elo</button>-->
-
+        <div class="form-group">
+            <select class="form-control" id="exampleFormControlSelect1" name="looser2">
+                <% nameArray.forEach(function(item){ %>
+                    <option> <%= item.name %> </option>
+                <% }) %>
+            </select>
         </div>
     </div>
+    <button onclick="alert('Das Spiel wurde erfolgreich eingetragen')" type="button submit" class="btn btn-primary calculateButton">Berechne Rating</button>
+
+    </form>
 </div>
-<button type="button submit" class="btn btn-primary calculateButton">Berechne Rating</button>
-</form>
-
-
-<!-- code for player registration
-<form action="register" method="post">
-    <input type="text" name="playername" placeholder="Names des Spielers">
-    <button type="button submit" class="btn btn-primary">Hinzufügen</button>
-</form>
--->
-
-
 
 <table class="table">
     <thead>
     <tr>
         <th scope="col">#</th>
         <th scope="col">Name</th>
-        <th scope="col">Rating</th>
+        <th scope="col">Winrate</th>
         <th scope="col">Spiele</th>
         <th scope="col">Siege</th>
-        <th scope="col">Winrate</th>
+        <th scope="col">Rating</th>
     </tr>
     </thead>
     <tbody>
@@ -84,10 +72,11 @@
         <tr>
             <td><%= i = i + 1 %></td>
             <td><%= item.name %></td>
-            <td><%= JSON.stringify(item.rating) %></td>
+            <td><%= JSON.stringify(item.winrate) + "%" %></td>
             <td><%= JSON.stringify(item.games) %></td>
             <td><%= JSON.stringify(item.wins) %></td>
-            <td><%= JSON.stringify(item.winrate) + "%" %></td>
+            <td><%= JSON.stringify(item.rating) %></td>
+
         </tr>
     <% }) %>
     <tr>

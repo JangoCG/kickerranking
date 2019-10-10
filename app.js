@@ -20,7 +20,8 @@ app.use(express.urlencoded({
 }));
 
 //Connecte und erstelle Rating DB
-mongoose.connect("mongodb://localhost:27017/ratingDB", {
+
+mongoose.connect("mongodb+srv://admin-cengiz:jangoadminasdf@cluster0-5vxjv.mongodb.net/ratingDB", {
     useNewUrlParser: true
 });
 
@@ -33,10 +34,24 @@ const ratingsSchema = {
     winrate: Number
 };
 
+//Blueprint für History Schema
+const historySchema = {
+    numberOfTheGame: Number,
+    team1Player1: String,
+    team1Player2: String,
+    team2Player1: String,
+    team2Player2: String,
+    scoreTeam1: String,
+    scoreTeam2: String
+};
+
+
 const Rating = mongoose.model("Rating", ratingsSchema);
+const History = mongoose.model("History",historySchema);
+
 
 const player1 = new Rating({
-    name: "cengiz",
+    name: "Cengiz",
     rating: 1000,
     games: 0,
     wins: 0,
@@ -44,7 +59,7 @@ const player1 = new Rating({
 });
 
 const player2 = new Rating({
-    name: "david",
+    name: "David",
     rating: 1000,
     games: 0,
     wins: 0,
@@ -53,7 +68,7 @@ const player2 = new Rating({
 
 
 const player3 = new Rating({
-    name: "flo",
+    name: "Flo",
     rating: 1000,
     games: 0,
     wins: 0,
@@ -61,7 +76,7 @@ const player3 = new Rating({
 });
 
 const player4 = new Rating({
-    name: "andi",
+    name: "JP",
     rating: 1000,
     games: 0,
     wins: 0,
@@ -89,34 +104,12 @@ app.get("/", function (req, res) {
         }
 
 
-        // let sortedPlayers = []
-        // foundRecords.forEach(function (item) {
-        //     item.rating
-        //
-        // });
-
-
-        foundRecords.sort((player1, player2) => player2.rating - player1.rating);
-
+        foundRecords.sort((player1, player2) => player2.winrate - player1.winrate);
         res.render("ranking", {
             ratingArray: foundRecords,
             nameArray: foundRecords
         });
     });
-});
-
-
-app.post("/register", function (req, res) {
-    const newEntry = new Rating({
-        name: req.body.playername,
-        rating: 1000.0,
-        games: 0
-    });
-
-    newEntry.save();
-    res.redirect("/");
-
-
 });
 
 app.post("/", async function (req, res) {
@@ -126,7 +119,6 @@ app.post("/", async function (req, res) {
     //wird der string in zahlen convertiert.
 
     const {winner1, winner2, looser1, looser2} = req.body;
-
 
     function retrieveUser(playerName, callback) {
         //https://stackoverflow.com/a/40169645/10781526
@@ -149,7 +141,6 @@ app.post("/", async function (req, res) {
         await Rating.updateOne({name: b.name}, {rating: a.rating + change});
         await Rating.updateOne({name: c.name}, {rating: c.rating - change});
         await Rating.updateOne({name: d.name}, {rating: d.rating - change});
-
         //update the games
         await Rating.updateOne({name: a.name}, {games: a.games + 1});
         await Rating.updateOne({name: b.name}, {games: b.games + 1});
@@ -158,22 +149,48 @@ app.post("/", async function (req, res) {
         //update number of wins. a & b are always the winners
         await Rating.updateOne({name: a.name}, {wins: a.wins + 1});
         await Rating.updateOne({name: b.name}, {wins: b.wins + 1});
+        //update winrate. +1 because we are always 1 dataset behind.
+        await Rating.updateOne({name: a.name}, {winrate: Math.round(((a.wins + 1) / (a.games + 1)) * 100)});
+        await Rating.updateOne({name: b.name}, {winrate: Math.round(((b.wins +1 ) / (b.games +1)) * 100)});
+        await Rating.updateOne({name: c.name}, {winrate: Math.round((c.wins  / (c.games + 1)) * 100)});
+        await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins  / (d.games + 1)) * 100)});
 
-        //update winrate. This is probably wrong. IDK how to divide in a db query
-        await Rating.updateOne({name: a.name}, {winrate: Math.round((a.wins / a.games) * 100)});
-        await Rating.updateOne({name: b.name}, {winrate: Math.round((b.wins / b.games) * 100)});
-        await Rating.updateOne({name: c.name}, {winrate: Math.round((c.wins / c.games) * 100)});
-        await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins / d.games) * 100)});
+
+        //Update History Table. Team1 are always the winners
+        await History.insertOne({team1Player1: a.name}, {scoreTeam1: "Sieg"});
+        await History.insertOne({team1Player2: b.name});
+        await History.insertOne({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
+        await History.insertOne({team2Player2: d.name});
+
+
+
+
 
 
     } catch (e) {
         console.log(e);
     }
-
     res.redirect("/");
-
-
 });
+
+// Register Page
+app.get("/register", function (req, res) {
+    res.render("register");
+});
+
+
+app.post("/register", async function (req, res) {
+    const newEntry = new Rating({
+        name: req.body.playerName,
+        rating: req.body.playerRating,
+        games: 0,
+        wins: 0,
+        winrate: 0
+    });
+    await newEntry.save();
+   // res.redirect("/");
+});
+
 
 app.listen(port, function () {
     console.log("Server started on port" + port);
@@ -181,9 +198,12 @@ app.listen(port, function () {
 
 
 function calculateElo(a, b, c, d) {
-    var eloTeamA = a + b;
-    var eloTeamB = c + d;
+    let eloTeamA = a + b;
+    let eloTeamB = c + d;
 
-    let chanceVonTeamAzuGewinnen = 1 / (1 + Math.pow(10, (eloTeamB - eloTeamA) / 400));
-    return (10 * (1 - chanceVonTeamAzuGewinnen));
+    let chanceOfTeamAToWin = 1 / (1 + Math.pow(10, (eloTeamB - eloTeamA) / 400));
+    return (10 * (1 - chanceOfTeamAToWin));
 }
+
+
+
