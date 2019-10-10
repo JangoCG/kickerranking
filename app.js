@@ -2,7 +2,6 @@ const express = require('express');
 const bodyParser = require("body-parser");
 
 const app = express();
-const port = 3000;
 var mongoose = require("mongoose");
 
 // //für double in mongoose
@@ -47,7 +46,7 @@ const historySchema = {
 
 
 const Rating = mongoose.model("Rating", ratingsSchema);
-const History = mongoose.model("History",historySchema);
+const History = mongoose.model("History", historySchema);
 
 
 const player1 = new Rating({
@@ -151,9 +150,9 @@ app.post("/", async function (req, res) {
         await Rating.updateOne({name: b.name}, {wins: b.wins + 1});
         //update winrate. +1 because we are always 1 dataset behind.
         await Rating.updateOne({name: a.name}, {winrate: Math.round(((a.wins + 1) / (a.games + 1)) * 100)});
-        await Rating.updateOne({name: b.name}, {winrate: Math.round(((b.wins +1 ) / (b.games +1)) * 100)});
-        await Rating.updateOne({name: c.name}, {winrate: Math.round((c.wins  / (c.games + 1)) * 100)});
-        await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins  / (d.games + 1)) * 100)});
+        await Rating.updateOne({name: b.name}, {winrate: Math.round(((b.wins + 1) / (b.games + 1)) * 100)});
+        await Rating.updateOne({name: c.name}, {winrate: Math.round((c.wins / (c.games + 1)) * 100)});
+        await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins / (d.games + 1)) * 100)});
 
 
         //Update History Table. Team1 are always the winners
@@ -161,10 +160,6 @@ app.post("/", async function (req, res) {
         await History.insertOne({team1Player2: b.name});
         await History.insertOne({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
         await History.insertOne({team2Player2: d.name});
-
-
-
-
 
 
     } catch (e) {
@@ -188,9 +183,14 @@ app.post("/register", async function (req, res) {
         winrate: 0
     });
     await newEntry.save();
-   // res.redirect("/");
+    // res.redirect("/");
 });
 
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
 
 app.listen(port, function () {
     console.log("Server started on port" + port);
