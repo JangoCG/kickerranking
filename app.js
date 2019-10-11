@@ -228,12 +228,16 @@ app.post("/", async function (req, res) {
         d = await retrieveUser(looser2);
 
         //get new rating
-        let change = Math.round(calculateElo(a.rating, b.rating, c.rating, d.rating));
+        //let change = Math.round(calculateElo(a.rating, b.rating, c.rating, d.rating));
+        let changeA =  Math.round(calculateEloA(a.rating,c.rating, d.rating));
+        let changeB =  Math.round(calculateEloB(b.rating,c.rating, d.rating));
+        let changeC = Math.round(calculateEloC(a.rating,b.rating, c.rating));
+        let changeD =  Math.round(calculateEloD(a.rating,b.rating, d.rating));
 
-        await Rating.updateOne({name: a.name}, {rating: a.rating + change});
-        await Rating.updateOne({name: b.name}, {rating: a.rating + change});
-        await Rating.updateOne({name: c.name}, {rating: c.rating - change});
-        await Rating.updateOne({name: d.name}, {rating: d.rating - change});
+        await Rating.updateOne({name: a.name}, {rating: a.rating + changeA});
+        await Rating.updateOne({name: b.name}, {rating: b.rating + changeB});
+        await Rating.updateOne({name: c.name}, {rating: c.rating - changeC});
+        await Rating.updateOne({name: d.name}, {rating: d.rating - changeD});
         //update the games
         await Rating.updateOne({name: a.name}, {games: a.games + 1});
         await Rating.updateOne({name: b.name}, {games: b.games + 1});
@@ -290,13 +294,40 @@ app.listen(port, function () {
 });
 
 
-function calculateElo(a, b, c, d) {
-    let eloTeamA = a + b;
-    let eloTeamB = c + d;
+// function calculateElo(a, b, c, d) {
+//     let eloTeamA = a + b;
+//     let eloTeamB = c + d;
+//
+//     let chanceOfTeamAToWin = 1 / (1 + Math.pow(10, (eloTeamB - eloTeamA) / 400));
+//     return (10 * (1 - chanceOfTeamAToWin));
+// }
 
-    let chanceOfTeamAToWin = 1 / (1 + Math.pow(10, (eloTeamB - eloTeamA) / 400));
-    return (10 * (1 - chanceOfTeamAToWin));
+function calculateEloA(a, c, d) {
+    let eloTeamB = (c + d)/2;
+
+    let chanceToWin = 1 / (1 + Math.pow(10, (eloTeamB - a) / 400));
+    return (10 * (1 - chanceToWin));
+}
+function calculateEloB(b, c, d) {
+    let eloTeamB = (c + d)/2;
+
+    let chanceToWin = 1 / (1 + Math.pow(10, (eloTeamB - b) / 400));
+    return (10 * (1 - chanceToWin));
 }
 
+//those are the loosers.
+function calculateEloC(a,b, c) {
+    let eloTeamA = (a + b) /2;
+
+    let chanceToWin = 1 / (1 + Math.pow(10, (c - eloTeamA )/ 400));
+    return (10 * (1-chanceToWin));
+}
+
+function calculateEloD(a,b, d) {
+    let eloTeamA = (a + b) /2;
+
+    let chanceToWin = 1 / (1 + Math.pow(10, (d - eloTeamA)/ 400));
+    return (10 * (1 - chanceToWin));
+}
 
 
