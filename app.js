@@ -176,7 +176,7 @@ const player15 = new Rating({
 
 const defaultPlayers =
     [player1, player2, player3, player4, player5, player6, player7, player8,
-    player9, player10, player11, player12, player13, player14, player15];
+        player9, player10, player11, player12, player13, player14, player15];
 
 
 app.get("/", function (req, res) {
@@ -270,6 +270,18 @@ app.get("/register", function (req, res) {
     res.render("register");
 });
 
+app.get("/history", function (req, res) {
+    res.render("history");
+});
+
+app.get("/regeln", function (req, res) {
+    res.render("regeln");
+});
+
+app.get("/ranking", function (req, res) {
+    res.redirect("/");
+});
+
 
 app.post("/register", async function (req, res) {
     const newEntry = new Rating({
@@ -292,6 +304,7 @@ if (port == null || port == "") {
 app.listen(port, function () {
     console.log("Server started on port" + port);
 });
+
 
 
 // function calculateElo(a, b, c, d) {

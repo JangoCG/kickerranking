@@ -8,80 +8,158 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <link href="css/styles.css" rel="stylesheet">
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
+    <link href="css/styles.css" rel="stylesheet">
+
+    <script src="test.js"></script>
     <title>Kicker Liga</title>
+
+
+    <style>
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
 </head>
 
+
 <body>
-<div class="row">
-    <div class="column">
-        <h1 class="winner">Sieger</h1>
-        <form action="/" method="post">
-            <div class="form-group">
-                <select class="form-control" id="exampleFormControlSelect1" name="winner1">
-                    <% nameArray.forEach(function(item){ %>
-                        <option> <%= item.name %> </option>
-                    <% }) %>
-                </select>
+
+<nav class="navbar navbar-expand-md border border-primary">
+    <a class="navbar-brand" href="#"><img src="icon.svg" width="30" height="30" class="d-inline-block align-top" alt=""> Kickerliga</a>
+
+
+    <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+            <a class="nav-link" href="/">Rangliste <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="history">Spielhistorie</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="history">Regeln</a>
+        </li>
+    </ul>
+</nav>
+
+
+<main role="main" class="container">
+
+    <div class="starter-template">
+
+        <div class="row">
+            <div class="column">
+                <h1 class="winner">Sieger</h1>
+                <form action="/" method="post">
+                    <div class="form-group">
+                        <select class="form-control" id="exampleFormControlSelect1" name="winner1">
+                            <% shuffle = (array) => array.sort(() => Math.random() - 0.5);%>
+                            <%let arrayWinner1 = [...nameArray]; %>
+                                   <% shuffle(arrayWinner1).forEach(function(item){ %>
+                                <option> <%= item.name %> </option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="exampleFormControlSelect1" name="winner2">
+                            <%let arrayWinner2 = [...nameArray] %>
+                            <% shuffle(arrayWinner2).forEach(function(item){ %>
+                                <option> <%= item.name %> </option>
+                            <% }) %>
+                        </select>
+                    </div>
             </div>
-            <div class="form-group">
-                <select class="form-control" id="exampleFormControlSelect1" name="winner2">
-                    <% nameArray.forEach(function(item){ %>
-                        <option> <%= item.name %> </option>
-                    <% }) %>
-                </select>
+
+            <div class="column">
+                <h1 class="looser">Verlierer</h1>
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1" name="looser1">
+                        <%let arrayLooser1 = [...nameArray] %>
+                        <% shuffle(arrayLooser1).forEach(function(item){ %>
+                            <option> <%= item.name %> </option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="exampleFormControlSelect1" name="looser2">
+                        <%let arrayLooser2 = [...nameArray] %>
+                        <% shuffle(arrayLooser2).forEach(function(item){ %>
+                            <option> <%= item.name %> </option>
+                        <% }) %>
+                    </select>
+                </div>
             </div>
-    </div>
+            <div id="loader" style="display:none"></div>
 
-    <div class="column">
-        <h1 class="looser">Verlierer</h1>
-        <div class="form-group">
-            <select class="form-control" id="exampleFormControlSelect1" name="looser1">
-                <% nameArray.forEach(function(item){ %>
-                    <option> <%= item.name %> </option>
-                <% }) %>
-            </select>
+            <button onclick="showLoader()" type="button submit"  class="btn btn-primary calculateButton my-primary-button">Berechne Rating
+            </button>
+            </form>
         </div>
-        <div class="form-group">
-            <select class="form-control" id="exampleFormControlSelect1" name="looser2">
-                <% nameArray.forEach(function(item){ %>
-                    <option> <%= item.name %> </option>
-                <% }) %>
-            </select>
-        </div>
+
+            <script>
+
+
+
+                function showLoader() {
+                    document.getElementById("loader").style.display = "flex"
+                }
+            </script>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Platzierung</th>
+                <th scope="col">Name</th>
+                <th scope="col">Winrate</th>
+                <th scope="col">Spiele</th>
+                <th scope="col">Siege</th>
+                <th scope="col">Rating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% var i = 0 %>
+            <% ratingArray.forEach(function(item, index){ %>
+                <tr class="<%= index === 0 ? "table-success" : index === ratingArray.length - 2 ? "table-warning" : index === ratingArray.length - 1 ? "table-danger" : "" %>">
+                    <td><%= i = i + 1 %></td>
+                    <td><%= item.name %></td>
+                    <td><%= JSON.stringify(item.winrate) + "%" %></td>
+                    <td><%= JSON.stringify(item.games) %></td>
+                    <td><%= JSON.stringify(item.wins) %></td>
+                    <td><%= JSON.stringify(item.rating) %></td>
+
+                </tr>
+            <% }) %>
+            <tr>
+            </tbody>
+        </table>
     </div>
-    <button onclick="alert('Das Spiel wurde erfolgreich eingetragen')" type="button submit" class="btn btn-primary calculateButton">Berechne Rating</button>
+</main><!-- /.container -->
 
-    </form>
-</div>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">Platzierung</th>
-        <th scope="col">Name</th>
-        <th scope="col">Winrate</th>
-        <th scope="col">Spiele</th>
-        <th scope="col">Siege</th>
-        <th scope="col">Rating</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% var i = 0 %>
-    <% ratingArray.forEach(function(item){ %>
-        <tr>
-            <td><%= i = i + 1 %></td>
-            <td><%= item.name %></td>
-            <td><%= JSON.stringify(item.winrate) + "%" %></td>
-            <td><%= JSON.stringify(item.games) %></td>
-            <td><%= JSON.stringify(item.wins) %></td>
-            <td><%= JSON.stringify(item.rating) %></td>
-
-        </tr>
-    <% }) %>
-    <tr>
-    </tbody>
-</table>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+        crossorigin="anonymous"></script>
+<div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a
+            href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </body>
 </html>
 
