@@ -18,8 +18,13 @@ app.use(express.urlencoded({
     extended: true
 }));
 
-//Connecte und erstelle Rating DB
-
+//for local connection
+/*
+mongoose.connect("mongodb://localhost:27017/kickerLiga", {
+    useNewUrlParser: true
+});
+*/
+//for online connection
 mongoose.connect("mongodb+srv://admin-cengiz:jangoadminasdf@cluster0-5vxjv.mongodb.net/kickerLiga", {
     useNewUrlParser: true
 });
@@ -35,12 +40,16 @@ const ratingsSchema = {
 
 //Blueprint für History Schema
 const historySchema = {
+    games: Number,
+    gameNumber: Number,
     team1Player1: String,
     team1Player2: String,
     team2Player1: String,
     team2Player2: String,
-    scoreTeam1: String,
-    scoreTeam2: String
+    team1Player1Change: Number,
+    team1Player2Change: Number,
+    team2Player1Change: Number,
+    team2Player2Change: Number
 };
 
 
@@ -169,7 +178,10 @@ const player15 = new Rating({
     winrate: 0
 });
 
-
+const test = new History({
+    name: "test",
+    games: 1
+});
 
 
 
@@ -219,6 +231,10 @@ app.post("/", async function (req, res) {
     }
 
 
+
+
+
+
     let a, b, c, d;
 
     try {
@@ -227,22 +243,26 @@ app.post("/", async function (req, res) {
         c = await retrieveUser(looser1);
         d = await retrieveUser(looser2);
 
+
         //get new rating
         //let change = Math.round(calculateElo(a.rating, b.rating, c.rating, d.rating));
-        let changeA =  Math.round(calculateEloA(a.rating,c.rating, d.rating));
-        let changeB =  Math.round(calculateEloB(b.rating,c.rating, d.rating));
-        let changeC = Math.round(calculateEloC(a.rating,b.rating, c.rating));
-        let changeD =  Math.round(calculateEloD(a.rating,b.rating, d.rating));
+        let changeA = Math.round(calculateEloA(a.rating, c.rating, d.rating));
+        let changeB = Math.round(calculateEloB(b.rating, c.rating, d.rating));
+        let changeC = Math.round(calculateEloC(a.rating, b.rating, c.rating));
+        let changeD = Math.round(calculateEloD(a.rating, b.rating, d.rating));
 
         await Rating.updateOne({name: a.name}, {rating: a.rating + changeA});
         await Rating.updateOne({name: b.name}, {rating: b.rating + changeB});
         await Rating.updateOne({name: c.name}, {rating: c.rating - changeC});
         await Rating.updateOne({name: d.name}, {rating: d.rating - changeD});
+
         //update the games
         await Rating.updateOne({name: a.name}, {games: a.games + 1});
         await Rating.updateOne({name: b.name}, {games: b.games + 1});
         await Rating.updateOne({name: c.name}, {games: c.games + 1});
         await Rating.updateOne({name: d.name}, {games: d.games + 1});
+
+
         //update number of wins. a & b are always the winners
         await Rating.updateOne({name: a.name}, {wins: a.wins + 1});
         await Rating.updateOne({name: b.name}, {wins: b.wins + 1});
@@ -252,11 +272,30 @@ app.post("/", async function (req, res) {
         await Rating.updateOne({name: c.name}, {winrate: Math.round((c.wins / (c.games + 1)) * 100)});
         await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins / (d.games + 1)) * 100)});
 
+        const player15 = new Rating({
+            name: "Michel",
+            rating: 1000,
+            games: 0,
+            wins: 0,
+            winrate: 0
+        });
 
-        await History.create({team1Player1: a.name}, {scoreTeam1: "Sieg"});
-        await History.create({team1Player2: b.name});
-        await History.create({team2Player1: c.name}, {scoreTeam2: "Niederlage"});
-        await History.create({team2Player2: d.name});
+
+        const gameResult = new History({
+            team1Player1: a.name,
+            team1Player2: b.name,
+            team2Player1: c.name,
+            team2Player2: d.name,
+            team1Player1Change: changeA,
+            team1Player2Change: changeB,
+            team2Player1Change: changeC,
+            team2Player2Change: changeD
+        });
+
+        await gameResult.save();
+
+
+
 
 
     } catch (e) {
@@ -271,8 +310,18 @@ app.get("/register", function (req, res) {
 });
 
 app.get("/history", function (req, res) {
-    res.render("history");
+    test.save();
+    History.find({}, function (err, foundRecords) {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.render("history", {
+            historyArray: foundRecords
+        })
+    })
 });
+
 
 app.get("/regeln", function (req, res) {
     res.render("regeln");
@@ -295,51 +344,43 @@ app.post("/register", async function (req, res) {
     // res.redirect("/");
 });
 
-
+//For online Server. --->
 let port = process.env.PORT;
 if (port == null || port == "") {
     port = 3000;
 }
-
-app.listen(port, function () {
-    console.log("Server started on port" + port);
+//  <---
+app.listen(3000, function () {
+    console.log("Server started on port 3000")
 });
 
 
-
-// function calculateElo(a, b, c, d) {
-//     let eloTeamA = a + b;
-//     let eloTeamB = c + d;
-//
-//     let chanceOfTeamAToWin = 1 / (1 + Math.pow(10, (eloTeamB - eloTeamA) / 400));
-//     return (10 * (1 - chanceOfTeamAToWin));
-// }
-
 function calculateEloA(a, c, d) {
-    let eloTeamB = (c + d)/2;
+    let eloTeamB = (c + d) / 2;
 
     let chanceToWin = 1 / (1 + Math.pow(10, (eloTeamB - a) / 400));
     return (10 * (1 - chanceToWin));
 }
+
 function calculateEloB(b, c, d) {
-    let eloTeamB = (c + d)/2;
+    let eloTeamB = (c + d) / 2;
 
     let chanceToWin = 1 / (1 + Math.pow(10, (eloTeamB - b) / 400));
     return (10 * (1 - chanceToWin));
 }
 
 //those are the loosers.
-function calculateEloC(a,b, c) {
-    let eloTeamA = (a + b) /2;
+function calculateEloC(a, b, c) {
+    let eloTeamA = (a + b) / 2;
 
-    let chanceToWin = 1 / (1 + Math.pow(10, (c - eloTeamA )/ 400));
-    return (10 * (1-chanceToWin));
+    let chanceToWin = 1 / (1 + Math.pow(10, (c - eloTeamA) / 400));
+    return (10 * (1 - chanceToWin));
 }
 
-function calculateEloD(a,b, d) {
-    let eloTeamA = (a + b) /2;
+function calculateEloD(a, b, d) {
+    let eloTeamA = (a + b) / 2;
 
-    let chanceToWin = 1 / (1 + Math.pow(10, (d - eloTeamA)/ 400));
+    let chanceToWin = 1 / (1 + Math.pow(10, (d - eloTeamA) / 400));
     return (10 * (1 - chanceToWin));
 }
 

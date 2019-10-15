@@ -60,18 +60,45 @@
 
 
 <main role="main" class="container">
+    <div class="starter-template">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Spielnummer</th>
+                <th class="table-success" scope="col">Sieger</th>
+                <th class="table-danger" scope="col">Verlierer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% let i = historyArray.length + 1 ; %>
+            <% historyArray.reverse().forEach(function(item, index){ %>
+            <tr>
+                <td><%= i = i -1 %></td>
+                <td><pre><%- item.team1Player1 + "(" + item.team1Player1Change + "pt)" + "  &&  " +
+                        item.team1Player2 + "(" + item.team1Player2Change + "pt)" %></pre>
+                </td>
+                <td><pre><%= item.team2Player1 + "(" + item.team2Player1Change + "pt)" + "  &&  " +
+                        item.team2Player2 + "(" + item.team2Player2Change + "pt)" %></pre>
+                </td>
+            </tr>
+            <% }) %>
 
-    <div class="starter-template"> </div>
-    <h1>tbd</h1>
-
+            <tr>
+            </tbody>
+        </table>
+    </div>
 </main><!-- /.container -->
 
 
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
 <script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-<div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
+<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+        crossorigin="anonymous"></script>
+<div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a
+            href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </body>
 </html>
 
