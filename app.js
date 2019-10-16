@@ -24,9 +24,22 @@ mongoose.connect("mongodb://localhost:27017/kickerLiga", {
     useNewUrlParser: true
 });
 */
+
 //for online connection
+
 mongoose.connect("mongodb+srv://admin-cengiz:jangoadminasdf@cluster0-5vxjv.mongodb.net/kickerLiga", {
     useNewUrlParser: true
+});
+
+
+//For online Server. --->
+let port = process.env.PORT;
+if (port == null || port == "") {
+    port = 3000;
+}
+//  <---
+app.listen(port, function () {
+    console.log("Server started on port 3000")
 });
 
 //Erstelle Blueprint für Rating Tabelle. Immer in Plural
@@ -41,7 +54,6 @@ const ratingsSchema = {
 //Blueprint für History Schema
 const historySchema = {
     games: Number,
-    gameNumber: Number,
     team1Player1: String,
     team1Player2: String,
     team2Player1: String,
@@ -178,10 +190,6 @@ const player15 = new Rating({
     winrate: 0
 });
 
-const test = new History({
-    name: "test",
-    games: 1
-});
 
 
 
@@ -310,7 +318,6 @@ app.get("/register", function (req, res) {
 });
 
 app.get("/history", function (req, res) {
-    test.save();
     History.find({}, function (err, foundRecords) {
         if (err) {
             console.log(err);
@@ -344,15 +351,7 @@ app.post("/register", async function (req, res) {
     // res.redirect("/");
 });
 
-//For online Server. --->
-let port = process.env.PORT;
-if (port == null || port == "") {
-    port = 3000;
-}
-//  <---
-app.listen(port, function () {
-    console.log("Server started on port 3000")
-});
+
 
 
 function calculateEloA(a, c, d) {

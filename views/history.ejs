@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link href="css/styles.css" rel="stylesheet">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
@@ -40,66 +40,79 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md border border-primary">
-    <a class="navbar-brand" href="/"><img src="icon.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        Kickerliga</a>
+    <nav class="navbar navbar-expand-md border border-primary">
+        <a class="navbar-brand" href="/"><img src="icon.svg" width="30" height="30" class="d-inline-block align-top"
+                alt="">
+            Kickerliga</a>
 
 
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item ">
-            <a class="nav-link" href="/">Rangliste <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="history">Spielhistorie</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="regeln">Regeln</a>
-        </li>
-    </ul>
-</nav>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Rangliste <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="history">Spielhistorie</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="regeln">Regeln</a>
+            </li>
+        </ul>
+    </nav>
 
-
-<main role="main" class="container">
-    <div class="starter-template">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Spielnummer</th>
-                <th class="table-success" scope="col">Sieger</th>
-                <th class="table-danger" scope="col">Verlierer</th>
-            </tr>
-            </thead>
-            <tbody>
-            <% let i = historyArray.length + 1 ; %>
-            <% historyArray.reverse().forEach(function(item, index){ %>
-            <tr>
-                <td><%= i = i -1 %></td>
-                <td><pre><%- item.team1Player1 + "(" + item.team1Player1Change + "pt)" + "  &&  " +
-                        item.team1Player2 + "(" + item.team1Player2Change + "pt)" %></pre>
-                </td>
-                <td><pre><%= item.team2Player1 + "(" + item.team2Player1Change + "pt)" + "  &&  " +
-                        item.team2Player2 + "(" + item.team2Player2Change + "pt)" %></pre>
-                </td>
-            </tr>
-            <% }) %>
-
-            <tr>
-            </tbody>
-        </table>
     </div>
-</main><!-- /.container -->
+
+    <main role="main" class="container">
+        <div class="starter-template">
+            <div class="table table-bordered">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td scope="col">Spielnummer</td>
+                            <td colspan="2" class="table-success" scope="col">Sieger</td>
+                            <th colspan="2" class="table-danger" scope="col">Verlierer</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let i = historyArray.length + 1 ; %>
+                        <% historyArray.reverse().forEach(function(item, index){ %>
+                        <tr>
+                            <td><%= i = i -1 %></td>
+                            <td>
+                                <%- item.team1Player1 + " (+" + item.team1Player1Change + "pt)" %>
+                            </td>
+                            <td>
+                                <%=item.team1Player2 + " (+" + item.team1Player2Change + "pt)" %>
+                            </td>
+                            <td>
+                                <%- item.team2Player1 + " (-" + item.team2Player1Change + "pt)" %>
+                            </td>
+                            <td>
+                                <%=item.team2Player2 + " (-" + item.team2Player2Change + "pt)" %>
+                            </td>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
-        crossorigin="anonymous"></script>
-<div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a
+                        </tr>
+                        <% }) %>
+
+                        <tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main><!-- /.container -->
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script>
+        window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous">
+    </script>
+    <div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a
             href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </body>
+
 </html>
-
-
