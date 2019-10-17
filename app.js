@@ -5,8 +5,8 @@ const app = express();
 var mongoose = require("mongoose");
 
 // //für double in mongoose
-// require('mongoose-double')(mongoose);
-// var schemaTypes = mongoose.Schema.Types;
+require('mongoose-double')(mongoose);
+var schemaTypes = mongoose.Schema.Types;
 
 //Für EJS engine
 app.set('view engine', 'ejs');
@@ -19,10 +19,12 @@ app.use(express.urlencoded({
 }));
 
 //for local connection
+
 /*
 mongoose.connect("mongodb://localhost:27017/kickerLiga", {
     useNewUrlParser: true
 });
+
 */
 
 //for online connection
@@ -48,7 +50,7 @@ const ratingsSchema = {
     rating: Number,
     games: Number,
     wins: Number,
-    winrate: Number
+    winrate: schemaTypes.Double
 };
 
 //Blueprint für History Schema
@@ -238,11 +240,6 @@ app.post("/", async function (req, res) {
         return Rating.findOne({name: playerName}).exec();
     }
 
-
-
-
-
-
     let a, b, c, d;
 
     try {
@@ -251,7 +248,7 @@ app.post("/", async function (req, res) {
         c = await retrieveUser(looser1);
         d = await retrieveUser(looser2);
 
-
+        Math.round
         //get new rating
         //let change = Math.round(calculateElo(a.rating, b.rating, c.rating, d.rating));
         let changeA = Math.round(calculateEloA(a.rating, c.rating, d.rating));
@@ -275,10 +272,10 @@ app.post("/", async function (req, res) {
         await Rating.updateOne({name: a.name}, {wins: a.wins + 1});
         await Rating.updateOne({name: b.name}, {wins: b.wins + 1});
         //update winrate. +1 because we are always 1 dataset behind.
-        await Rating.updateOne({name: a.name}, {winrate: Math.round(((a.wins + 1) / (a.games + 1)) * 100)});
-        await Rating.updateOne({name: b.name}, {winrate: Math.round(((b.wins + 1) / (b.games + 1)) * 100)});
-        await Rating.updateOne({name: c.name}, {winrate: Math.round((c.wins / (c.games + 1)) * 100)});
-        await Rating.updateOne({name: d.name}, {winrate: Math.round((d.wins / (d.games + 1)) * 100)});
+        await Rating.updateOne({name: a.name}, {winrate: (((a.wins + 1) / (a.games + 1)) * 100 ).toFixed(2) });
+        await Rating.updateOne({name: b.name}, {winrate: (((b.wins + 1) / (b.games + 1)) * 100).toFixed(2)});
+        await Rating.updateOne({name: c.name}, {winrate: ((c.wins / (c.games + 1)) * 100 ).toFixed(2) });
+        await Rating.updateOne({name: d.name}, {winrate: ((d.wins / (d.games + 1)) * 100).toFixed(2) });
 
         const player15 = new Rating({
             name: "Michel",
@@ -301,10 +298,6 @@ app.post("/", async function (req, res) {
         });
 
         await gameResult.save();
-
-
-
-
 
     } catch (e) {
         console.log(e);
@@ -350,9 +343,6 @@ app.post("/register", async function (req, res) {
     await newEntry.save();
     // res.redirect("/");
 });
-
-
-
 
 function calculateEloA(a, c, d) {
     let eloTeamB = (c + d) / 2;

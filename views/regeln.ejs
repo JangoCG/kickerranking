@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link href="css/styles.css" rel="stylesheet">
     <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/starter-template/">
@@ -40,40 +40,71 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md border border-primary">
-    <a class="navbar-brand" href="/"><img src="icon.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        Kickerliga</a>
+    <nav class="navbar navbar-expand-md border border-primary">
+        <a class="navbar-brand" href="/"><img src="icon.svg" width="30" height="30" class="d-inline-block align-top"
+                alt="">
+            Kickerliga</a>
 
 
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item ">
-            <a class="nav-link" href="/">Rangliste <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item ">
-            <a class="nav-link" href="history">Spielhistorie</a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="history">Regeln</a>
-        </li>
-    </ul>
-</nav>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="/">Rangliste <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="history">Spielhistorie</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="history">Regeln</a>
+            </li>
+        </ul>
+    </nav>
 
 
-<main role="main" class="container">
+    <main role="main" class="container">
 
-    <div class="starter-template"> </div>
+        <div class="starter-template"> </div>
 
-    <h1>tbd</h1>
+        <list>
+            <ul>
+                <li> Für einen Sieg werden zwei Gewinnsätze benötigt</li>
+                <li>Ein Satz ist gewonnen, wenn eine Mannschaft mit zwei oder mehr Toren führt und mindestens 6 Tore hat
+                </li>
+                <li>Vor Spielbeginn wird per Schere-Stein-Papier(Schnick-Schnack-Schnuck/Fli-Fla-Flu) entschieden welche
+                    Mannschaft die Wahl zwischen Anstoß oder Seitenwahl hat (Änderung seit 19/20)</li>
+                <li>Nach einem Satz werden die Seiten gewechselt </li>
+                <li>Bei Anstoß darf sich die Mannschaft (die das Tor kassiert hat,) den Ball an die eigene Fünferreihe
+                    legen oder einwerfen </li>
+                <li>Ein Toter Ball wird durch die Mannschaft, in deren Hälfte sich der Ball befindet, in die Mitte
+                    eingeworfen, außer wenn sich der Ball hinter der Zweierreihe eines Teams befindet, in diesem Fall
+                    erhält die entsprechende Mannschaft den Ball an der Zweierreihe </li>
+                <li>Bei Totem Ball auf der Mittellinie und beim Verlassen des Spielfeldes wirft die Mannschaft den Ball
+                    ein die zuletzt Anstoß hatte </li>
+                <li>Ein Ball der auf der Torhüterstange liegen bleibt, darf von dem Torhüter an die eigene Zweierreihe
+                    gelegt werde, da ansonsten eine Gefahr entsteht </li>
+                <li>Vor und nach der Ballberührung darf sich der Spieler nicht um mehr als 360° drehen (Kurbeln) </li>
+                <li>Nach jedem Tor darf eine Partei seine Positionen wechseln </li>
+                <li>Tore von der Mittellinie (Fünferreihe) zählen nicht, nach einem solchen Regelverstoß darf die
+                    Mannschaft bei der das Tor geschossen wurde den Ball in der Mitte einwerfen. </li>
+                <li>Beim Einwerfen des Balles, darf dieser so manipuliert werden, dass er sich in bestimmte Richtungen
+                    bewegt, jedoch muss ein eingeworfener Ball immer zuerst von einer Fünferreihe berührt werden </li>
+                <li>Eigentore zählen (auch von der Fünferreihe) </li>
+            </ul>
+        </list>
+    </main><!-- /.container -->
 
-</main><!-- /.container -->
 
 
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script>window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-<script src="/docs/4.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
-<div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a href="https://www.flaticon.com/"             title="Flaticon">www.flaticon.com</a></div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script>
+        window.jQuery || document.write('<script src="/docs/4.3/assets/js/vendor/jquery-slim.min.js"><\/script>')
+    </script>
+    <script src="/docs/4.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous">
+    </script>
+    <div>Icons made by <a href="https://www.flaticon.com/authors/mavadee" title="mavadee">mavadee</a> from <a
+            href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 </body>
+
 </html>
-
-
