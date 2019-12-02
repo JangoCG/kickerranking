@@ -4,16 +4,16 @@ const bodyParser = require("body-parser");
 const app = express();
 var mongoose = require("mongoose");
 
-// //für double in mongoose
+// //for double in mongoose
 require('mongoose-double')(mongoose);
 var schemaTypes = mongoose.Schema.Types;
 
-//Für EJS engine
+//for EJS engine
 app.set('view engine', 'ejs');
 //Für die CSS Files
 app.use(express.static("public"));
 
-//Body Parser um Infos aus Post zu parsen
+//for the body parser
 app.use(express.urlencoded({
     extended: true
 }));
@@ -44,7 +44,7 @@ app.listen(port, function () {
     console.log("Server started on port 3000")
 });
 
-//Erstelle Blueprint für Rating Tabelle. Immer in Plural
+
 const ratingsSchema = {
     name: String,
     rating: Number,
@@ -53,7 +53,7 @@ const ratingsSchema = {
     winrate: schemaTypes.Double
 };
 
-//Blueprint für History Schema
+//Blueprint for history schema
 const historySchema = {
     games: Number,
     team1Player1: String,
@@ -228,11 +228,7 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", async function (req, res) {
-    //Das ist der erhaltene body der hTTP request
-    //Durch die . Notation kann ich dann auf die Attribute zugreifen
-    //Die Zahlen werden als Stringe geparsed durch das Number
-    //wird der string in zahlen convertiert.
-
+    
     const {winner1, winner2, looser1, looser2} = req.body;
 
     function retrieveUser(playerName, callback) {
