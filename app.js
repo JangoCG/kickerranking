@@ -1,3 +1,16 @@
+const admin = require('./config').admin
+const password = require('./config').password
+const player1 = require('./config').player1
+const player2 = require('./config').player2
+const player3 = require('./config').player3
+const player4 = require('./config').player4
+const player5 = require('./config').player5
+const player6 = require('./config').player6
+const player7 = require('./config').player7
+const player8 = require('./config').player8
+const player9 = require('./config').player9
+const player10 = require('./config').player10
+
 const express = require('express');
 const bodyParser = require("body-parser");
 
@@ -29,7 +42,7 @@ mongoose.connect("mongodb://localhost:27017/kickerLiga", {
 
 //for online connection
 
-mongoose.connect("mongodb+srv://admin-cengiz:jangoadminasdf@cluster0-5vxjv.mongodb.net/kickerLiga", {
+mongoose.connect(`mongodb+srv://${admin}:${password}@cluster0-5vxjv.mongodb.net/kickerLiga`, {
     useNewUrlParser: true
 });
 
@@ -72,7 +85,7 @@ const History = mongoose.model("History", historySchema);
 
 
 const player1 = new Rating({
-    name: "Cengiz Gürtusgil",
+    name: player1,
     rating: 1000,
     games: 0,
     wins: 0,
@@ -80,7 +93,7 @@ const player1 = new Rating({
 });
 
 const player2 = new Rating({
-    name: "David Schmitt",
+    name: player2,
     rating: 1050,
     games: 0,
     wins: 0,
@@ -89,7 +102,7 @@ const player2 = new Rating({
 
 
 const player3 = new Rating({
-    name: "Florian Hergenröder",
+    name: player3,
     rating: 977,
     games: 0,
     wins: 0,
@@ -97,7 +110,7 @@ const player3 = new Rating({
 });
 
 const player4 = new Rating({
-    name: "Jean-Paul Kindl",
+    name: player4,
     rating: 1110,
     games: 0,
     wins: 0,
@@ -105,7 +118,7 @@ const player4 = new Rating({
 });
 
 const player5 = new Rating({
-    name: "Alan Jaffery",
+    name: player5,
     rating: 1080,
     games: 0,
     wins: 0,
@@ -113,7 +126,7 @@ const player5 = new Rating({
 });
 
 const player6 = new Rating({
-    name: "Youssef Azbakh",
+    name: player6,
     rating: 1021,
     games: 0,
     wins: 0,
@@ -121,7 +134,7 @@ const player6 = new Rating({
 });
 
 const player7 = new Rating({
-    name: "Farhad Mohtashemi",
+    name: player7,
     rating: 998,
     games: 0,
     wins: 0,
@@ -129,7 +142,7 @@ const player7 = new Rating({
 });
 
 const player8 = new Rating({
-    name: "Lars Frerking",
+    name: player8,
     rating: 998,
     games: 0,
     wins: 0,
@@ -137,7 +150,7 @@ const player8 = new Rating({
 });
 
 const player9 = new Rating({
-    name: "Alexander Müller",
+    name: 9,
     rating: 983,
     games: 0,
     wins: 0,
@@ -145,52 +158,13 @@ const player9 = new Rating({
 });
 
 const player10 = new Rating({
-    name: "Daniele Brunetti",
+    name: player10,
     rating: 980,
     games: 0,
     wins: 0,
     winrate: 0
 });
 
-const player11 = new Rating({
-    name: "Maike Patt",
-    rating: 970,
-    games: 0,
-    wins: 0,
-    winrate: 0
-});
-
-const player12 = new Rating({
-    name: "Jahn Lossmann",
-    rating: 941,
-    games: 0,
-    wins: 0,
-    winrate: 0
-});
-
-const player13 = new Rating({
-    name: "Kevin Mass",
-    rating: 905,
-    games: 0,
-    wins: 0,
-    winrate: 0
-});
-
-const player14 = new Rating({
-    name: "Imanuel",
-    rating: 1000,
-    games: 0,
-    wins: 0,
-    winrate: 0
-});
-
-const player15 = new Rating({
-    name: "Michel",
-    rating: 1000,
-    games: 0,
-    wins: 0,
-    winrate: 0
-});
 
 
 
@@ -228,12 +202,12 @@ app.get("/", function (req, res) {
 });
 
 app.post("/", async function (req, res) {
-    
-    const {winner1, winner2, looser1, looser2} = req.body;
+
+    const { winner1, winner2, looser1, looser2 } = req.body;
 
     function retrieveUser(playerName, callback) {
         //https://stackoverflow.com/a/40169645/10781526
-        return Rating.findOne({name: playerName}).exec();
+        return Rating.findOne({ name: playerName }).exec();
     }
 
     let a, b, c, d;
@@ -252,26 +226,26 @@ app.post("/", async function (req, res) {
         let changeC = Math.round(calculateEloC(a.rating, b.rating, c.rating));
         let changeD = Math.round(calculateEloD(a.rating, b.rating, d.rating));
 
-        await Rating.updateOne({name: a.name}, {rating: a.rating + changeA});
-        await Rating.updateOne({name: b.name}, {rating: b.rating + changeB});
-        await Rating.updateOne({name: c.name}, {rating: c.rating - changeC});
-        await Rating.updateOne({name: d.name}, {rating: d.rating - changeD});
+        await Rating.updateOne({ name: a.name }, { rating: a.rating + changeA });
+        await Rating.updateOne({ name: b.name }, { rating: b.rating + changeB });
+        await Rating.updateOne({ name: c.name }, { rating: c.rating - changeC });
+        await Rating.updateOne({ name: d.name }, { rating: d.rating - changeD });
 
         //update the games
-        await Rating.updateOne({name: a.name}, {games: a.games + 1});
-        await Rating.updateOne({name: b.name}, {games: b.games + 1});
-        await Rating.updateOne({name: c.name}, {games: c.games + 1});
-        await Rating.updateOne({name: d.name}, {games: d.games + 1});
+        await Rating.updateOne({ name: a.name }, { games: a.games + 1 });
+        await Rating.updateOne({ name: b.name }, { games: b.games + 1 });
+        await Rating.updateOne({ name: c.name }, { games: c.games + 1 });
+        await Rating.updateOne({ name: d.name }, { games: d.games + 1 });
 
 
         //update number of wins. a & b are always the winners
-        await Rating.updateOne({name: a.name}, {wins: a.wins + 1});
-        await Rating.updateOne({name: b.name}, {wins: b.wins + 1});
+        await Rating.updateOne({ name: a.name }, { wins: a.wins + 1 });
+        await Rating.updateOne({ name: b.name }, { wins: b.wins + 1 });
         //update winrate. +1 because we are always 1 dataset behind.
-        await Rating.updateOne({name: a.name}, {winrate: (((a.wins + 1) / (a.games + 1)) * 100 ).toFixed(2) });
-        await Rating.updateOne({name: b.name}, {winrate: (((b.wins + 1) / (b.games + 1)) * 100).toFixed(2)});
-        await Rating.updateOne({name: c.name}, {winrate: ((c.wins / (c.games + 1)) * 100 ).toFixed(2) });
-        await Rating.updateOne({name: d.name}, {winrate: ((d.wins / (d.games + 1)) * 100).toFixed(2) });
+        await Rating.updateOne({ name: a.name }, { winrate: (((a.wins + 1) / (a.games + 1)) * 100).toFixed(2) });
+        await Rating.updateOne({ name: b.name }, { winrate: (((b.wins + 1) / (b.games + 1)) * 100).toFixed(2) });
+        await Rating.updateOne({ name: c.name }, { winrate: ((c.wins / (c.games + 1)) * 100).toFixed(2) });
+        await Rating.updateOne({ name: d.name }, { winrate: ((d.wins / (d.games + 1)) * 100).toFixed(2) });
 
         const player15 = new Rating({
             name: "Michel",
